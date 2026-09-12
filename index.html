@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fa" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hunted Halloween — Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="board-wrapper">
+
+    <div class="fog-layer fog-layer--1"></div>
+    <div class="fog-layer fog-layer--2"></div>
+    <div class="moon"></div>
+    <div class="bat bat--1">🦇</div>
+    <div class="bat bat--2">🦇</div>
+
+    <h1 class="board-title">Hunted <span>Halloween</span></h1>
+
+    <div class="board-stage">
+      <div class="board" id="game-board">
+
+        <!-- ============ CEMETERY GROUND (decorative backdrop) ============ -->
+        <div class="cemetery-ground" style="grid-column:2/16; grid-row:3/12;">
+          <div class="cemetery-fence"></div>
+        </div>
+
+        <!-- ============ RIGHT VERTICAL PATH (11 tiles) ============ -->
+        <div class="tile tile--start" style="grid-column:15; grid-row:2;"><span class="tile-label">START</span></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:3;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:4;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:5;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:6;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:7;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:8;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:9;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:10;"></div>
+        <div class="tile tile--path" style="grid-column:15; grid-row:11;"></div>
+        <div class="tile tile--start" style="grid-column:15; grid-row:12;"><span class="tile-label">START</span></div>
+
+        <!-- Trick-or-treat houses beside tile 4 (top) and tile 8 (bottom, 4th from end) -->
+        <div class="house-slot" data-role="house" style="grid-column:16; grid-row:5;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:16; grid-row:9;"></div>
+
+        <!-- ============ ENTRANCE 1 : right-path tile 6 -> cemetery C1 ============ -->
+        <div class="gate-slot" data-role="gate" style="grid-column:10; grid-row:7;"></div>
+        <div class="tile tile--connector" style="grid-column:11; grid-row:7;"></div>
+        <div class="tile tile--connector" style="grid-column:12; grid-row:7;"></div>
+        <div class="tile tile--connector" style="grid-column:13; grid-row:7;"></div>
+        <div class="tile tile--connector" style="grid-column:14; grid-row:7;"></div>
+
+        <!-- ============ CEMETERY : 7 tiles, right -> left ============ -->
+        <div class="tile tile--cemetery" style="grid-column:9; grid-row:7;">C1</div>
+        <div class="tile tile--cemetery" style="grid-column:8; grid-row:7;">C2</div>
+        <div class="tile tile--cemetery" style="grid-column:7; grid-row:7;">C3</div>
+        <div class="tile tile--cemetery" style="grid-column:6; grid-row:7;">C4</div>
+        <div class="tile tile--cemetery" style="grid-column:5; grid-row:7;">C5</div>
+        <div class="tile tile--cemetery" style="grid-column:4; grid-row:7;">C6</div>
+        <div class="tile tile--cemetery" style="grid-column:3; grid-row:7;">C7</div>
+
+        <!-- ============ ENTRANCE 2 : opposite side ============ -->
+        <div class="gate-slot" data-role="gate" style="grid-column:2; grid-row:7;"></div>
+
+        <!-- ============ CENTRAL BRANCH (up 3 / down 3 from C4) ============ -->
+        <div class="gate-slot" data-role="gate" style="grid-column:6; grid-row:3;"></div>
+        <div class="tile tile--path" style="grid-column:6; grid-row:4;"></div>
+        <div class="tile tile--path" style="grid-column:6; grid-row:5;"></div>
+        <div class="tile tile--path" style="grid-column:6; grid-row:6;"></div>
+
+        <div class="tile tile--path" style="grid-column:6; grid-row:8;"></div>
+        <div class="tile tile--path" style="grid-column:6; grid-row:9;"></div>
+        <div class="tile tile--path" style="grid-column:6; grid-row:10;"></div>
+        <div class="gate-slot" data-role="gate" style="grid-column:6; grid-row:11;"></div>
+
+        <!-- ============ GHOST TILE ============ -->
+        <div class="tile tile--ghost" style="grid-column:6; grid-row:12;"></div>
+
+        <!-- ============ RIGHT CHAIN FROM GHOST ============ -->
+        <div class="tile tile--path" style="grid-column:7; grid-row:12;"></div>
+        <div class="tile tile--path" style="grid-column:8; grid-row:12;"></div>
+        <div class="tile tile--orange" style="grid-column:9; grid-row:12;"></div>
+        <div class="tile tile--green" style="grid-column:10; grid-row:12;"></div>
+        <div class="tile tile--path" style="grid-column:11; grid-row:12;"></div>
+
+        <div class="house-slot" data-role="house" style="grid-column:8; grid-row:13;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:11; grid-row:13;"></div>
+
+        <!-- ============ LEFT CHAIN FROM GHOST ============ -->
+        <div class="tile tile--path" style="grid-column:5; grid-row:12;"></div>
+        <div class="tile tile--path" style="grid-column:4; grid-row:12;"></div>
+        <div class="tile tile--purple" style="grid-column:3; grid-row:12;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:12;"></div>
+
+        <div class="house-slot" data-role="house" style="grid-column:4; grid-row:13;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:1; grid-row:13;"></div>
+
+        <!-- ============ UPWARD CHAIN (col 2) ============ -->
+        <div class="tile tile--green" style="grid-column:2; grid-row:11;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:10;"></div>
+        <div class="tile tile--orange" style="grid-column:2; grid-row:9;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:8;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:6;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:5;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:4;"></div>
+        <div class="tile tile--path" style="grid-column:2; grid-row:3;"></div>
+        <div class="tile tile--green" style="grid-column:2; grid-row:2;"></div>
+
+        <div class="house-slot" data-role="house" style="grid-column:1; grid-row:10;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:1; grid-row:8;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:1; grid-row:5;"></div>
+
+        <!-- ============ TOP CHAIN (row 2, turning right) ============ -->
+        <div class="tile tile--path" style="grid-column:3; grid-row:2;"></div>
+        <div class="tile tile--purple" style="grid-column:4; grid-row:2;"></div>
+        <div class="tile tile--path" style="grid-column:5; grid-row:2;"></div>
+        <div class="tile tile--orange" style="grid-column:6; grid-row:2;"></div>
+        <div class="tile tile--green" style="grid-column:7; grid-row:2;"></div>
+        <div class="tile tile--path" style="grid-column:8; grid-row:2;"></div>
+        <div class="tile tile--path" style="grid-column:9; grid-row:2;"></div>
+
+        <div class="house-slot" data-role="house" style="grid-column:3; grid-row:1;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:5; grid-row:1;"></div>
+        <div class="house-slot" data-role="house" style="grid-column:9; grid-row:1;"></div>
+
+      </div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
