@@ -4,15 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
   buildSwirls();
   buildRunes();
   buildGhosts();
+  buildWards();
+  assignPathVariants();
+  checkTileImages();
   buildCemeteryDecor();
 });
 
 /* ---------- reusable component builders (visual only, no game logic) ---------- */
 
-function createHouse(){
+function createHouse(index){
   const el = document.createElement('div');
   el.className = 'house';
   el.innerHTML = `
+    <img class="house-photo" src="assets/houses/house-${index}.png" alt=""
+         onload="this.closest('.house').classList.add('house--has-image');"
+         onerror="this.remove();">
     <div class="house-glow"></div>
     <div class="house-smoke"></div>
     <div class="house-chimney"></div>
@@ -25,6 +31,16 @@ function createHouse(){
     <div class="house-sign"><span>TRICK · OR · TREAT</span></div>
   `;
   return el;
+}
+
+function buildHouses(){
+  document.querySelectorAll('[data-role="house"]').forEach((slot, i) => slot.appendChild(createHouse(i + 1)));
+}
+
+function assignPathVariants(){
+  document.querySelectorAll('.tile--path').forEach((tile, i) => {
+    tile.classList.add('tile--path-' + ((i % 3) + 1));
+  });
 }
 
 function createGate(){
@@ -85,9 +101,18 @@ function createGhost(){
   return wrap;
 }
 
-function buildHouses(){
-  document.querySelectorAll('[data-role="house"]').forEach(slot => slot.appendChild(createHouse()));
+function createWardIcon(){
+  const wrap = document.createElement('div');
+  wrap.className = 'ward-icon';
+  wrap.innerHTML = `<svg viewBox="0 0 60 70">
+    <path d="M10 42 C10 16 19 6 30 6 C41 6 50 16 50 42 L50 63 L42 55 L34 63 L26 55 L18 63 L10 55 Z" fill="currentColor" opacity=".55"/>
+    <line x1="12" y1="14" x2="48" y2="56" stroke="#e23b3b" stroke-width="5" stroke-linecap="round"/>
+    <line x1="48" y1="14" x2="12" y2="56" stroke="#e23b3b" stroke-width="5" stroke-linecap="round"/>
+  </svg>`;
+  return wrap;
 }
+
+
 function buildGates(){
   document.querySelectorAll('[data-role="gate"]').forEach(slot => slot.appendChild(createGate()));
 }
@@ -99,6 +124,9 @@ function buildRunes(){
 }
 function buildGhosts(){
   document.querySelectorAll('.tile--ghost').forEach(tile => tile.appendChild(createGhost()));
+}
+function buildWards(){
+  document.querySelectorAll('.tile--warded').forEach(tile => tile.appendChild(createWardIcon()));
 }
 
 function buildCemeteryDecor(){
@@ -127,4 +155,20 @@ function buildCemeteryDecor(){
     layer.appendChild(el);
   });
   ground.appendChild(layer);
+}
+function markIfImageExists(url, selector){
+  const img = new Image();
+  img.onload = () => document.querySelectorAll(selector).forEach(el => el.classList.add('has-photo'));
+  img.src = url;
+}
+
+function checkTileImages(){
+  markIfImageExists('assets/tiles/orange.png', '.tile--orange');
+  markIfImageExists('assets/tiles/purple.png', '.tile--purple');
+  markIfImageExists('assets/tiles/green.png', '.tile--green');
+  markIfImageExists('assets/tiles/ghost.png', '.tile--ghost');
+  markIfImageExists('assets/tiles/coffin.png', '.tile--coffin');
+  markIfImageExists('assets/tiles/path-1.png', '.tile--path-1');
+  markIfImageExists('assets/tiles/path-2.png', '.tile--path-2');
+  markIfImageExists('assets/tiles/path-3.png', '.tile--path-3');
 }
