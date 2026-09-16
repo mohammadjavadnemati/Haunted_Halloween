@@ -108,4 +108,20 @@ public class GameController : ControllerBase
         var ghostId = Enum.Parse<GhostId>(request.GhostId);
         return Ok(GhostService.MoveGhost(state, ghostId, request.DestinationTileId, face, rng));
     }
+    [HttpPost("{gameId}/haunted-house/visit")]
+    public ActionResult<HauntedHouseResult> VisitHauntedHouse(string gameId, [FromQuery] string playerId)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(HauntedHouseService.Visit(state, playerId, new Random()));
+    }
+
+    public record GlowStickChoiceRequest(string PlayerId, bool UseGlowStick, string AttackerGhostId);
+
+    [HttpPost("{gameId}/ghost/resolve-glowstick")]
+    public ActionResult<GhostMoveResult> ResolveGlowStick(string gameId, [FromBody] GlowStickChoiceRequest request)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        var ghostId = Enum.Parse<GhostId>(request.AttackerGhostId);
+        return Ok(GhostService.ResolveGlowStickChoice(state, request.PlayerId, request.UseGlowStick, ghostId));
+    }
 }

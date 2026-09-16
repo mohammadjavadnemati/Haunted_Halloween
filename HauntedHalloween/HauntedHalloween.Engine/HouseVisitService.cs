@@ -167,7 +167,7 @@ public static class HouseVisitService
         else if (state.Banshee.TrackPosition == 6)
         {
             state.Banshee.IsReleased = true;
-            // TODO fase7/8: exact tile id for Banshee start near House #10 not yet in board graph
+            state.Banshee.CurrentTileId = "banshee-start"; // section 14
             result.Log.Add("Banshee released.");
         }
     }
