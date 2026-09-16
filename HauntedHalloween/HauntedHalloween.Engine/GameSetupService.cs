@@ -98,7 +98,7 @@ public static class GameSetupService
     // ---- Rule 2.6-2.8: Ghosts inactive at start ----
     private static void SetupGhosts(GameState state)
     {
-        state.Ghosts.Add(new GhostState { Id = GhostId.Ghost1, IsActive = false, CurrentTileId = null }); // TODO فاز 7: Ghost Start tile هنوز در گراف بورد وجود نداره
+        state.Ghosts.Add(new GhostState { Id = GhostId.Ghost1, IsActive = false, CurrentTileId = "ghost-start" });
         state.Ghosts.Add(new GhostState { Id = GhostId.Ghost2, IsActive = false, CurrentTileId = null });
         state.Ghosts.Add(new GhostState { Id = GhostId.Ghost3, IsActive = false, CurrentTileId = null });
     }

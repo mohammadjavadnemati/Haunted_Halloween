@@ -89,4 +89,23 @@ public class GameController : ControllerBase
         if (!Games.TryGetValue(gameId, out var state)) return NotFound();
         return Ok(ScoringService.CalculateAllScores(state));
     }
+    [HttpPost("{gameId}/ghost/activate-check")]
+    public ActionResult ActivateGhost1(string gameId, [FromQuery] string playerLandedTileId)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        GhostService.CheckActivateGhost1(state, playerLandedTileId);
+        return Ok(state.Ghosts);
+    }
+
+    public record GhostMoveRequest(string GhostId, string DestinationTileId);
+
+    [HttpPost("{gameId}/ghost/move")]
+    public ActionResult<GhostMoveResult> MoveGhost(string gameId, [FromBody] GhostMoveRequest request)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        var rng = new Random();
+        var face = GhostDie.Roll(rng);
+        var ghostId = Enum.Parse<GhostId>(request.GhostId);
+        return Ok(GhostService.MoveGhost(state, ghostId, request.DestinationTileId, face, rng));
+    }
 }

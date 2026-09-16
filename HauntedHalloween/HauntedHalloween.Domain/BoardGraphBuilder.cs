@@ -100,6 +100,21 @@ public static class BoardGraphBuilder
         new("house-10", 3, 1, TileType.House, 10), // Haunted House — طبق section21 شماره 10 باید Haunted باشه
         new("house-11", 5, 1, TileType.House, 11),
         new("house-12", 9, 1, TileType.House, 12),
+        new("grave-center", 6, 7, TileType.Cemetery),
+new("grave-safe-N", 6, 6, TileType.Cemetery),   // = Ghost2 start
+new("grave-safe-S", 6, 8, TileType.Cemetery),
+new("grave-safe-E", 7, 7, TileType.Cemetery),   // = Ghost3 start
+new("grave-safe-W", 5, 7, TileType.Cemetery),
+
+new("ghost-start", 4, 9, TileType.GhostStart),
+new("candy-coffin", 3, 9, TileType.CandyCoffin),
+new("ghost-diag-1", 5, 8, TileType.Path),
+new("ghost-diag-2", 4, 8, TileType.Path),
+
+new("portal-1", 1, 1, TileType.GhostPortal),
+new("portal-2", 16, 13, TileType.GhostPortal),
+
+new("banshee-start", 3, 0, TileType.Path),
     };
 
     public static Dictionary<string, BoardTile> Build()
@@ -123,6 +138,28 @@ public static class BoardGraphBuilder
                     tiles[a.Id].ConnectedTileIds.Add(b.Id);
             }
         }
+        // بعد از foreach adjacency loop در Build():
+        tiles["grave-center"].ConnectedTileIds.AddRange(new[] { "grave-safe-N", "grave-safe-S", "grave-safe-E", "grave-safe-W" });
+        tiles["grave-safe-N"].ConnectedTileIds.Add("grave-center");
+        tiles["grave-safe-S"].ConnectedTileIds.Add("grave-center");
+        tiles["grave-safe-E"].ConnectedTileIds.Add("grave-center");
+        tiles["grave-safe-W"].ConnectedTileIds.Add("grave-center");
+
+        tiles["ghost-diag-1"].ConnectedTileIds.AddRange(new[] { "ghost-start", "grave-safe-S" });
+        tiles["ghost-diag-2"].ConnectedTileIds.AddRange(new[] { "ghost-diag-1", "grave-center" });
+        tiles["ghost-start"].ConnectedTileIds.Add("ghost-diag-1");
+        tiles["candy-coffin"].ConnectedTileIds.Add("ghost-start");
+
+        tiles["grave-safe-N"].IsGhostSafe = true;
+        tiles["grave-safe-S"].IsGhostSafe = true;
+        tiles["grave-safe-E"].IsGhostSafe = true;
+        tiles["grave-safe-W"].IsGhostSafe = true;
+        tiles["grave-center"].IsGhostSafe = true;
+        tiles["ghost-diag-1"].IsGhostSafe = true;
+        tiles["ghost-diag-2"].IsGhostSafe = true;
+
+        tiles["portal-1"].IsGhostPortal = true;
+        tiles["portal-2"].IsGhostPortal = true;
         return tiles;
     }
 }

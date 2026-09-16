@@ -10,6 +10,7 @@ public class BoardTile
 
     public bool IsGhostPortal { get; set; }
 
-
     public bool IsHauntedHouse => HouseNumber == 10;
+    public bool IsGhostSafe { get; set; }
+
 }
