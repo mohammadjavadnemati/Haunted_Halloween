@@ -83,4 +83,10 @@ public class GameController : ControllerBase
         if (!Games.TryGetValue(gameId, out var state)) return NotFound();
         return Ok(MovementService.ExecuteMove(state, request.PlayerId, request.DestinationTileId, request.MaxDistance));
     }
+    [HttpGet("{gameId}/scores")]
+    public ActionResult<List<ScoreBreakdown>> Scores(string gameId)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(ScoringService.CalculateAllScores(state));
+    }
 }
