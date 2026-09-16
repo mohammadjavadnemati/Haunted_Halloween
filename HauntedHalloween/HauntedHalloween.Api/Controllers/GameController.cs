@@ -66,4 +66,21 @@ public class GameController : ControllerBase
             return NotFound();
         return Ok(TurnService.TriggerBedtime(state, request.PlayerId));
     }
+    [HttpGet("{gameId}/reachable-tiles")]
+    public ActionResult<List<ReachableTile>> ReachableTiles(string gameId, [FromQuery] string playerId, [FromQuery] int maxDistance)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        var player = state.Players.FirstOrDefault(p => p.Id == playerId);
+        if (player == null) return BadRequest("Player not found.");
+        return Ok(MovementService.GetReachableTiles(state, player.CurrentTileId, maxDistance));
+    }
+
+    public record MoveRequest(string PlayerId, string DestinationTileId, int MaxDistance);
+
+    [HttpPost("{gameId}/move")]
+    public ActionResult<MoveResult> Move(string gameId, [FromBody] MoveRequest request)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(MovementService.ExecuteMove(state, request.PlayerId, request.DestinationTileId, request.MaxDistance));
+    }
 }

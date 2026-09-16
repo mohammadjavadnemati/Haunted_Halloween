@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HauntedHalloween.Engine")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67a5cb94dcc152cb34b099619e68031fad2af2a6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5330199b2e2405c206ad86127b4d037b5f5edae4")]
 [assembly: System.Reflection.AssemblyProductAttribute("HauntedHalloween.Engine")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HauntedHalloween.Engine")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
