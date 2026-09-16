@@ -4,7 +4,23 @@ namespace HauntedHalloween.Engine;
 
 public static class GameSetupService
 {
-    public static GameState CreateNewGame(string gameId, List<(string Id, string Name)> playerInfos, Random? rng = null)
+    private static void ValidateStartChoices(GameState state, List<(string Id, string Name, string StartTileId)> playerInfos)
+    {
+        var validStartIds = state.Tiles.Values
+            .Where(t => t.Type == TileType.Start)
+            .Select(t => t.Id)
+            .ToHashSet();
+
+        foreach (var p in playerInfos)
+        {
+            if (!validStartIds.Contains(p.StartTileId))
+                throw new ArgumentException($"'{p.StartTileId}' is not a valid START tile.");
+        }
+    }
+    public static GameState CreateNewGame(
+    string gameId,
+    List<(string Id, string Name, string StartTileId)> playerInfos,
+    Random? rng = null)
     {
         if (playerInfos.Count < 2 || playerInfos.Count > 5)
             throw new ArgumentException("Player count must be 2-5.");
@@ -19,12 +35,13 @@ public static class GameSetupService
         };
 
         SetupHouses(state, rng);
+        ValidateStartChoices(state, playerInfos);
         SetupPlayers(state, playerInfos, rng);
         SetupGhosts(state);
         SetupBanshee(state);
         SetupCandyCoffin(state);
 
-        state.CurrentPlayerIndex = rng.Next(state.Players.Count); // "randomly select first player"
+        state.CurrentPlayerIndex = rng.Next(state.Players.Count);
         state.TurnNumber = 1;
 
         return state;
@@ -55,10 +72,9 @@ public static class GameSetupService
     }
 
     // ---- Rule 2.9-2.10 + 19-20: Secret Candy Quest ----
-    private static void SetupPlayers(GameState state, List<(string Id, string Name)> playerInfos, Random rng)
+    private static void SetupPlayers(GameState state, List<(string Id, string Name, string StartTileId)> playerInfos, Random rng)
     {
-        var candyTypes = Enum.GetValues<CandyType>().OrderBy(_ => rng.Next()).ToList(); // 9 types shuffled
-        var startTileId = state.Tiles.Values.First(t => t.Type == TileType.Start).Id; // TODO: چند START وجود داره (start-A, start-B)؛ باید مشخص کنی هر بازیکن روی کدوم START می‌ایسته
+        var candyTypes = Enum.GetValues<CandyType>().OrderBy(_ => rng.Next()).ToList();
 
         for (int i = 0; i < playerInfos.Count; i++)
         {
@@ -66,8 +82,8 @@ public static class GameSetupService
             {
                 Id = playerInfos[i].Id,
                 Name = playerInfos[i].Name,
-                CurrentTileId = startTileId,
-                StartTileId = startTileId,
+                CurrentTileId = playerInfos[i].StartTileId,
+                StartTileId = playerInfos[i].StartTileId,
                 SecretCandyQuest = candyTypes[i]
             };
             foreach (var c in Enum.GetValues<CandyType>())
@@ -76,7 +92,6 @@ public static class GameSetupService
             state.Players.Add(player);
         }
 
-        // یک توکن اضافه مخفی در Haunted House (بخش 20)
         state.HauntedHouseSecretCandy = candyTypes[playerInfos.Count];
     }
 
