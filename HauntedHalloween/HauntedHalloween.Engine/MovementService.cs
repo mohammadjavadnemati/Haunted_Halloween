@@ -72,6 +72,7 @@ public static class MovementService
         }
 
         player.CurrentTileId = destinationTileId;
+        player.LastMovementPath = target.Path;
 
         result.Success = true;
         result.LandedTileId = destinationTileId;

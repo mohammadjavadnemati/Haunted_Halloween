@@ -12,5 +12,6 @@ public class BoardTile
 
     public bool IsHauntedHouse => HouseNumber == 10;
     public bool IsGhostSafe { get; set; }
+    public bool IsGhostExtraRoll { get; set; }
 
 }

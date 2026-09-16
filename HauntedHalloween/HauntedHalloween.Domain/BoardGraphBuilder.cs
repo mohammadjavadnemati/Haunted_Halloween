@@ -160,6 +160,7 @@ new("banshee-start", 3, 0, TileType.Path),
 
         tiles["portal-1"].IsGhostPortal = true;
         tiles["portal-2"].IsGhostPortal = true;
+        tiles["ghost-diag-1"].IsGhostExtraRoll = true; // اولین تایل خروج از در پایین قبرستان
         return tiles;
     }
 }

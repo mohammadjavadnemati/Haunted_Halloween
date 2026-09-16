@@ -10,10 +10,9 @@ public class HauntedHouseResult
     public HauntedHouseFace? Face { get; set; }
     public bool NeedsPortalChoiceByRightPlayer { get; set; }
     public bool NeedsRollAgain { get; set; }
-    public bool NeedsBackwardMoveChoice { get; set; }
+    public string? BackwardMovedToTileId { get; set; }
     public BoostType? BoostGranted { get; set; }
 }
-
 public static class HauntedHouseService
 {
     // section 35-36: step 1 always grant a Glow Stick, step 2 roll die
@@ -68,8 +67,13 @@ public static class HauntedHouseService
             case HauntedHouseFace.Booo:
                 if (player.GlowSticks > 0) player.GlowSticks--;
                 house.CandyDroppedHere += 1;
-                result.NeedsBackwardMoveChoice = true; // section 35: move 2 spaces backward — exact destination chosen by client within the movement graph
-                result.Log.Add("BOOO! Dropped 1 candy, lost Glow Stick, must move 2 backward.");
+
+                var path = player.LastMovementPath;
+                int targetIndex = path.Count >= 3 ? path.Count - 3 : 0;
+                player.CurrentTileId = path.Count > 0 ? path[targetIndex] : player.CurrentTileId;
+                result.BackwardMovedToTileId = player.CurrentTileId;
+
+                result.Log.Add($"BOOO! Dropped 1 candy, lost Glow Stick, moved back to {player.CurrentTileId}.");
                 break;
 
             case HauntedHouseFace.OneCandyRollAgain:

@@ -48,11 +48,10 @@ public static class GhostService
         SetCurrentTileId(state, ghostId, destinationTileId);
         result.MovedGhostTileId = destinationTileId;
         result.Log.Add($"{ghostId} moved to {destinationTileId}.");
-
-        if (state.Tiles.TryGetValue(destinationTileId, out var destTile) && destTile.IsGhostPortal)
+        if (state.Tiles.TryGetValue(destinationTileId, out var destTile) && destTile.IsGhostExtraRoll)
         {
-            // section 9: ghost's controller picks another portal, teleports immediately
-            result.NeedsPortalChoice = true;
+            result.NeedsExtraRoll = true;
+            result.Log.Add("Landed on Ghost Extra Roll tile — roll ghost die again.");
         }
 
         // section 8: Ghost Extra Roll space — not represented yet in board graph (missing rule/tile)
@@ -73,71 +72,72 @@ public static class GhostService
 
     // section 11-13: candy theft, safe spaces, coffin deposit, ghost returns to Ghost Start
     private static void ResolveAttack(GameState state, GhostId ghostId, string tileId, GhostMoveResult result, Random rng)
-{
-    var player = state.Players.FirstOrDefault(p => p.CurrentTileId == tileId);
-    if (player == null) return;
+    {
+        var player = state.Players.FirstOrDefault(p => p.CurrentTileId == tileId);
+        if (player == null) return;
 
-    if (state.Tiles.TryGetValue(tileId, out var tile) && tile.IsGhostSafe)
-    {
-        result.Log.Add($"{player.Name} is on a safe space, no theft.");
-        return;
+        if (state.Tiles.TryGetValue(tileId, out var tile) && tile.IsGhostSafe)
+        {
+            result.Log.Add($"{player.Name} is on a safe space, no theft.");
+            return;
+        }
+
+        // section 36: Glow Stick protects against normal ghost attacks only, not Banshee.
+        // NOTE: rules do not specify automatic vs. player-choice use; UI-decision flow (section 41) implies a choice prompt.
+        // Actual "Use/Decline" prompt handling belongs to the API layer (client shows prompt, then calls a resolve endpoint) — see GlowStickService below.
+        if (ghostId != GhostId.Banshee && player.GlowSticks > 0)
+        {
+            result.NeedsGlowStickPrompt = true;
+            result.PendingAttackerGhostId = ghostId;
+            return; // theft resolution paused until client responds
+        }
+
+        ResolveAttackFinal(state, ghostId, player, result);
     }
 
-    // section 36: Glow Stick protects against normal ghost attacks only, not Banshee.
-    // NOTE: rules do not specify automatic vs. player-choice use; UI-decision flow (section 41) implies a choice prompt.
-    // Actual "Use/Decline" prompt handling belongs to the API layer (client shows prompt, then calls a resolve endpoint) — see GlowStickService below.
-    if (ghostId != GhostId.Banshee && player.GlowSticks > 0)
+    private static void ResolveAttackFinal(GameState state, GhostId ghostId, Player player, GhostMoveResult result)
     {
-        result.NeedsGlowStickPrompt = true;
-        result.PendingAttackerGhostId = ghostId;
-        return; // theft resolution paused until client responds
+        if (ghostId == GhostId.Banshee)
+        {
+            StealCandy(state, player, stealHalf: true, result);
+            state.Banshee.CurrentTileId = "banshee-start";
+        }
+        else if (ghostId == GhostId.Ghost2)
+        {
+            StealFixedAmount(state, player, 2, result);
+            SetCurrentTileId(state, ghostId, "ghost-start");
+        }
+        else if (ghostId == GhostId.Ghost3)
+        {
+            StealFixedAmount(state, player, 3, result);
+            SetCurrentTileId(state, ghostId, "ghost-start");
+        }
+        else if (ghostId == GhostId.Ghost1)
+        {
+            StealFixedAmount(state, player, 1, result);
+            SetCurrentTileId(state, ghostId, "ghost-start");
+        }
     }
 
-    ResolveAttackFinal(state, ghostId, player, result);
-}
+    // section 36: called when client resolves the Use/Decline Glow Stick prompt
+    public static GhostMoveResult ResolveGlowStickChoice(GameState state, string playerId, bool useGlowStick, GhostId attackerGhostId)
+    {
+        var result = new GhostMoveResult { Success = true };
+        var player = state.Players.FirstOrDefault(p => p.Id == playerId);
+        if (player == null) { result.Success = false; result.Error = "Player not found."; return result; }
 
-private static void ResolveAttackFinal(GameState state, GhostId ghostId, Player player, GhostMoveResult result)
-{
-    if (ghostId == GhostId.Banshee)
-    {
-        StealCandy(state, player, stealHalf: true, result);
-        state.Banshee.CurrentTileId = "banshee-start";
+        if (useGlowStick && player.GlowSticks > 0)
+        {
+            player.GlowSticks--;
+            SetCurrentTileId(state, attackerGhostId, "ghost-start");
+            result.Log.Add("Glow Stick used. Ghost scared away, candy safe.");
+        }
+        else
+        {
+            ResolveAttackFinal(state, attackerGhostId, player, result);
+        }
+        return result;
     }
-    else if (ghostId == GhostId.Ghost2)
-    {
-        StealFixedAmount(state, player, 2, result);
-        SetCurrentTileId(state, ghostId, "ghost-start");
-    }
-    else if (ghostId == GhostId.Ghost3)
-    {
-        StealFixedAmount(state, player, 3, result);
-        SetCurrentTileId(state, ghostId, "ghost-start");
-    }
-    else if (ghostId == GhostId.Ghost1)
-    {
-        result.Log.Add("Ghost1 attack amount not specified in rules — no theft applied.");
-    }
-}
-
-// section 36: called when client resolves the Use/Decline Glow Stick prompt
-public static GhostMoveResult ResolveGlowStickChoice(GameState state, string playerId, bool useGlowStick, GhostId attackerGhostId)
-{
-    var result = new GhostMoveResult { Success = true };
-    var player = state.Players.FirstOrDefault(p => p.Id == playerId);
-    if (player == null) { result.Success = false; result.Error = "Player not found."; return result; }
-
-    if (useGlowStick && player.GlowSticks > 0)
-    {
-        player.GlowSticks--;
-        SetCurrentTileId(state, attackerGhostId, "ghost-start");
-        result.Log.Add("Glow Stick used. Ghost scared away, candy safe.");
-    }
-    else
-    {
-        ResolveAttackFinal(state, attackerGhostId, player, result);
-    }
-    return result;
-}
 
     private static void StealFixedAmount(GameState state, Player player, int amount, GhostMoveResult result)
     {
