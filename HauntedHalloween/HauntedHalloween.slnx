@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="HauntedHalloween.Api/HauntedHalloween.Api.csproj" />
+  <Project Path="HauntedHalloween.Domain/HauntedHalloween.Domain.csproj" />
+  <Project Path="HauntedHalloween.Engine/HauntedHalloween.Engine.csproj" />
+  <Project Path="HauntedHalloween.Tests/HauntedHalloween.Tests.csproj" />
+</Solution>

@@ -1,0 +1,12 @@
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\bin\Debug\net10.0\HauntedHalloween.Domain.deps.json
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\bin\Debug\net10.0\HauntedHalloween.Domain.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\bin\Debug\net10.0\HauntedHalloween.Domain.pdb
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.AssemblyInfoInputs.cache
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.AssemblyInfo.cs
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.csproj.CoreCompileInputs.cache
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.sourcelink.json
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\refint\HauntedHalloween.Domain.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\HauntedHalloween.Domain.pdb
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Domain\obj\Debug\net10.0\ref\HauntedHalloween.Domain.dll

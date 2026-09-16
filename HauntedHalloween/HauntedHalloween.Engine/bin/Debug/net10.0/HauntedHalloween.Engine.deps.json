@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "HauntedHalloween.Engine/1.0.0": {
+        "dependencies": {
+          "HauntedHalloween.Domain": "1.0.0"
+        },
+        "runtime": {
+          "HauntedHalloween.Engine.dll": {}
+        }
+      },
+      "HauntedHalloween.Domain/1.0.0": {
+        "runtime": {
+          "HauntedHalloween.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "HauntedHalloween.Engine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "HauntedHalloween.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

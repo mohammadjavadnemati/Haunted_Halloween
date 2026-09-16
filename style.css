@@ -529,21 +529,8 @@ html,body{
   transform: translate(var(--house-x,0%), var(--house-y,0%)) rotate(var(--house-rotate,0deg)) scale(var(--house-scale,1));
   transform-origin:bottom center;
 }
-.moon-bench{
-  position:relative; z-index:1;
-  display:flex;
-  width:min(1500px, 94vw);
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
-}
-.moon-tile{
-  position:relative;
-  flex:0 0 calc(min(800px, 94vw) / 13 * 2);
-  aspect-ratio:16/13;
-  background:linear-gradient(160deg, #2e2a6b, #14103a 70%);
-  box-shadow:inset 0 0 0 1px rgba(140,150,255,.15), inset 0 0 24px rgba(0,0,0,.5);
-}
+
+
 .moon-photo{
   position:absolute;
   left:50%; top:50%;
@@ -554,6 +541,13 @@ html,body{
   background-size:cover;
   background-position:center;
   box-shadow:0 0 20px rgba(180,190,255,.4);
+}
+.moon-tile{
+  position:relative;
+  flex:0 0 calc(min(700px, 94vw) / 13 * 2);
+  aspect-ratio:16/13;
+  background:linear-gradient(160deg, #2e2a6b, #14103a 70%);
+  box-shadow:inset 0 0 0 1px rgba(140,150,255,.15), inset 0 0 24px rgba(0,0,0,.5);
 }
 .moon-tile--1 .moon-photo{ --moon-img:url('assets/moon/moon-1.png'); }
 .moon-tile--2 .moon-photo{ --moon-img:url('assets/moon/moon-1.png'); }
@@ -582,25 +576,19 @@ html,body{
   z-index:1;
   display:flex;
   align-items:center;
+  justify-content:flex-start;
   gap:20px;
   width:min(1500px, 94vw);
-  justify-content:center;
 }
 .moon-bench{
   display:flex;
-  width:calc(min(1500px, 94vw) / 13 * 2 * 6);
+  width:calc(min(700px, 94vw) / 13 * 2 * 6);
   border-radius:14px;
   overflow:hidden;
   box-shadow:0 10px 30px rgba(0,0,0,.5);
   flex-shrink:0;
 }
-.moon-tile{
-  position:relative;
-  flex:0 0 calc(min(820px, 940vw) / 13 * 2);
-  aspect-ratio:16/13;
-  background:linear-gradient(160deg, #2e2a6b, #14103a 70%);
-  box-shadow:inset 0 0 0 1px rgba(140,150,255,.15), inset 0 0 24px rgba(0,0,0,.5);
-}
+
 
 
 

@@ -1,0 +1,16 @@
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\bin\Debug\net10.0\HauntedHalloween.Engine.deps.json
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\bin\Debug\net10.0\HauntedHalloween.Engine.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\bin\Debug\net10.0\HauntedHalloween.Engine.pdb
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\bin\Debug\net10.0\HauntedHalloween.Domain.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\bin\Debug\net10.0\HauntedHalloween.Domain.pdb
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.csproj.AssemblyReference.cache
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.AssemblyInfoInputs.cache
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.AssemblyInfo.cs
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.csproj.CoreCompileInputs.cache
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.sourcelink.json
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedH.B5ED858A.Up2Date
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\refint\HauntedHalloween.Engine.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\HauntedHalloween.Engine.pdb
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Engine\obj\Debug\net10.0\ref\HauntedHalloween.Engine.dll
