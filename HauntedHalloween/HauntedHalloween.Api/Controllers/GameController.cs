@@ -124,4 +124,107 @@ public class GameController : ControllerBase
         var ghostId = Enum.Parse<GhostId>(request.AttackerGhostId);
         return Ok(GhostService.ResolveGlowStickChoice(state, request.PlayerId, request.UseGlowStick, ghostId));
     }
+    public record BoostHouseRequest(string PlayerId, int HouseNumber);
+    [HttpPost("{gameId}/boost/collect-house")]
+    public ActionResult<BoostResult> CollectHouseBoost(string gameId, [FromBody] BoostHouseRequest r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.CollectNormalHouseBoost(state, r.PlayerId, r.HouseNumber));
+    }
+
+    public record Boost2Request(string PlayerId);
+    [HttpPost("{gameId}/boost/2")]
+    public ActionResult<BoostResult> Boost2(string gameId, [FromBody] Boost2Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost2ExtraGlowStick(state, r.PlayerId));
+    }
+
+    public record Boost3Request(string PlayerId, CandyType CandyType, int AmountReceived);
+    [HttpPost("{gameId}/boost/3")]
+    public ActionResult<BoostResult> Boost3(string gameId, [FromBody] Boost3Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost3DoubleCandy(state, r.PlayerId, r.CandyType, r.AmountReceived));
+    }
+
+    public record Boost4Request(string PlayerId);
+    [HttpPost("{gameId}/boost/4")]
+    public ActionResult<BoostResult> Boost4(string gameId, [FromBody] Boost4Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost4RideHome(state, r.PlayerId));
+    }
+
+    public record Boost5Request(string PlayerId, string TargetGhost);
+    [HttpPost("{gameId}/boost/5")]
+    public ActionResult<BoostResult> Boost5(string gameId, [FromBody] Boost5Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost5Banish(state, r.PlayerId, Enum.Parse<GhostId>(r.TargetGhost)));
+    }
+
+    public record Boost6Request(string PlayerId, int HouseNumber);
+    [HttpPost("{gameId}/boost/6")]
+    public ActionResult<BoostResult> Boost6(string gameId, [FromBody] Boost6Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost6Revisit(state, r.PlayerId, r.HouseNumber));
+    }
+
+    public record Boost7Request(string PlayerId, string TargetPlayerId);
+    [HttpPost("{gameId}/boost/7")]
+    public ActionResult<BoostResult> Boost7(string gameId, [FromBody] Boost7Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost7Switch(state, r.PlayerId, r.TargetPlayerId));
+    }
+
+    public record Boost8Request(string PlayerId);
+    [HttpPost("{gameId}/boost/8")]
+    public ActionResult<BoostResult> Boost8(string gameId, [FromBody] Boost8Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.ConsumeBoost8AfterSignHit(state, r.PlayerId));
+    }
+
+    public record Boost9Request(string PlayerId);
+    [HttpPost("{gameId}/boost/9")]
+    public ActionResult<BoostResult> Boost9(string gameId, [FromBody] Boost9Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost9RaidCoffin(state, r.PlayerId));
+    }
+
+    public record Boost10Request(string PlayerId, CandyType StolenType, int StolenAmount, string VictimPlayerId);
+    [HttpPost("{gameId}/boost/10")]
+    public ActionResult<BoostResult> Boost10(string gameId, [FromBody] Boost10Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost10FriendlyGhost(state, r.PlayerId, r.StolenType, r.StolenAmount, r.VictimPlayerId));
+    }
+
+    public record Boost11Request(string PlayerId);
+    [HttpPost("{gameId}/boost/11")]
+    public ActionResult<BoostResult> Boost11(string gameId, [FromBody] Boost11Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost11BooBeGone(state, r.PlayerId));
+    }
+
+    public record Boost12Request(string PlayerId, string TargetPlayerId);
+    [HttpPost("{gameId}/boost/12")]
+    public ActionResult<BoostResult> Boost12(string gameId, [FromBody] Boost12Request r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(BoostService.UseBoost12Web(state, r.PlayerId, r.TargetPlayerId));
+    }
+
+    public record PortalChoiceRequest(string PlayerId, bool Teleport, string? ChosenPortalTileId);
+    [HttpPost("{gameId}/boost/1-portal-choice")]
+    public ActionResult<MoveResult> Boost1Portal(string gameId, [FromBody] PortalChoiceRequest r)
+    {
+        if (!Games.TryGetValue(gameId, out var state)) return NotFound();
+        return Ok(MovementService.ResolvePortalChoice(state, r.PlayerId, r.Teleport, r.ChosenPortalTileId));
+    }
 }

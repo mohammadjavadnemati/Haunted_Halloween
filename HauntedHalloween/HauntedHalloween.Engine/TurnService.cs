@@ -110,8 +110,19 @@ public static class TurnService
         do
         {
             next = (next + 1) % count;
-        } while (state.Players[next].HasReachedBedtime && state.Phase != GamePhase.FinalRound);
-        // توجه: بازیکنی که BEDTIME زده دیگه نوبت عادی نمی‌گیره (بخش 38: "does NOT receive another turn")
+            var candidate = state.Players[next];
+
+            if (candidate.HasReachedBedtime && state.Phase != GamePhase.FinalRound)
+                continue;
+
+            if (candidate.SkipNextTurn)
+            {
+                candidate.SkipNextTurn = false; // section 33: skip exactly one turn
+                continue;
+            }
+
+            break;
+        } while (true);
 
         state.CurrentPlayerIndex = next;
     }

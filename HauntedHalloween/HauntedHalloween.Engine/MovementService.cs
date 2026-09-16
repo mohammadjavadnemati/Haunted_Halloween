@@ -81,4 +81,34 @@ public static class MovementService
 
         return result;
     }
+    // اضافه به کلاس MovementService:
+
+    public static bool PlayerLandedOnPortal(GameState state, string tileId) =>
+        state.Tiles.TryGetValue(tileId, out var t) && t.IsGhostPortal;
+
+    // section 22: BOOst #1 owner may teleport to another portal; reusable, never consumed
+    public static MoveResult ResolvePortalChoice(GameState state, string playerId, bool teleport, string? chosenPortalTileId)
+    {
+        var player = state.Players.FirstOrDefault(p => p.Id == playerId);
+        var result = new MoveResult();
+        if (player == null) { result.Error = "Player not found."; return result; }
+        if (!player.Boosts.Contains(BoostType.AnyGhostPortal)) { result.Error = "Player does not own BOOst #1."; return result; }
+
+        if (!teleport || chosenPortalTileId == null)
+        {
+            result.Success = true;
+            result.LandedTileId = player.CurrentTileId;
+            return result;
+        }
+
+        if (!state.Tiles.TryGetValue(chosenPortalTileId, out var tile) || !tile.IsGhostPortal)
+        {
+            result.Error = "Not a valid portal."; return result;
+        }
+
+        player.CurrentTileId = chosenPortalTileId;
+        result.Success = true;
+        result.LandedTileId = chosenPortalTileId;
+        return result;
+    }
 }
