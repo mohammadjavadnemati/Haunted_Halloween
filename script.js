@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkTileImages();
   buildCemeteryDecor();
   // buildAssetShowcase();
+  buildDiceTest();
 });
 
 /* ---------- reusable component builders (visual only, no game logic) ---------- */
@@ -225,3 +226,110 @@ function checkTileImages(){
 
 
 
+function createStarPath(cx, cy, points, outerR, innerR){
+  let d = '';
+  const step = Math.PI / points;
+  for (let i = 0; i < points * 2; i++){
+    const r = i % 2 === 0 ? outerR : innerR;
+    const angle = i * step - Math.PI / 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    d += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ',' + y.toFixed(2) + ' ';
+  }
+  return d + 'Z';
+}
+
+function createCandySVG(){
+  return `
+    <ellipse cx="30" cy="30" rx="14" ry="9" fill="currentColor"/>
+    <path d="M16 30 L4 20 L4 40 Z" fill="currentColor"/>
+    <path d="M44 30 L56 20 L56 40 Z" fill="currentColor"/>
+  `;
+}
+
+function createGhostDieFace(number, plain){
+  const wrap = document.createElement('div');
+  wrap.className = 'dice-face dice-face--ghost';
+  if (plain){
+    wrap.innerHTML = `<span class="dice-plain-number">${number}</span>`;
+  } else {
+    wrap.innerHTML = `<svg viewBox="0 0 60 70">
+      <path d="M10 42 C10 16 19 6 30 6 C41 6 50 16 50 42 L50 63 L42 55 L34 63 L26 55 L18 63 L10 55 Z" fill="#ffffff"/>
+      <text x="30" y="40" text-anchor="middle" font-size="26" font-family="'Creepster',cursive" fill="#123a30">${number}</text>
+    </svg>`;
+  }
+  return wrap;
+}
+
+function createPlayerDieFace(number){
+  const wrap = document.createElement('div');
+  wrap.className = 'dice-face dice-face--player';
+  const starD = createStarPath(30, 30, 15, 26, 14);
+  wrap.innerHTML = `<svg viewBox="0 0 60 60">
+    <path d="${starD}" fill="#000000"/>
+    <text x="30" y="38" text-anchor="middle" font-size="22" font-family="'Creepster',cursive" fill="#ffffff">${number}</text>
+  </svg>`;
+  return wrap;
+}
+
+function createHHDieFace(type){
+  const wrap = document.createElement('div');
+  wrap.className = 'dice-face dice-face--hh';
+  if (type === 'boo') wrap.innerHTML = `<span class="dice-hh-text">BOOOOO</span>`;
+  else if (type === 'boost') wrap.innerHTML = `<span class="dice-hh-text">BOOOOST</span>`;
+  else if (type === 'again') wrap.innerHTML = `
+    <svg viewBox="0 0 60 60" class="dice-hh-candy">${createCandySVG()}</svg>
+    <span class="dice-hh-sub">+ دوباره بنداز</span>`;
+  else if (type === 'x2') wrap.innerHTML = `
+    <div class="dice-hh-row">
+      <span class="dice-hh-x">×2</span>
+      <svg viewBox="0 0 60 60" class="dice-hh-candy">${createCandySVG()}</svg>
+    </div>`;
+  else if (type === 'x3') wrap.innerHTML = `
+    <div class="dice-hh-row">
+      <span class="dice-hh-x">×3</span>
+      <svg viewBox="0 0 60 60" class="dice-hh-candy">${createCandySVG()}</svg>
+    </div>`;
+  else if (type === 'swirl'){
+    const d = spiralPath(30, 30, 2.4, 25, 40);
+    wrap.innerHTML = `<svg viewBox="0 0 60 60"><path d="${d}" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>`;
+  }
+  return wrap;
+}
+
+function buildDiceTest(){
+  const root = document.getElementById('diceTestRoot');
+  if (!root) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'dice-test';
+
+  const ghostRow = document.createElement('div');
+  ghostRow.className = 'dice-row';
+  ghostRow.innerHTML = `<div class="dice-row-title">تاس روح</div>`;
+  const ghostFaces = document.createElement('div');
+  ghostFaces.className = 'dice-faces';
+  [3, 3, 2, 2].forEach(n => ghostFaces.appendChild(createGhostDieFace(n)));
+  ghostFaces.appendChild(createGhostDieFace(1));
+  ghostFaces.appendChild(createGhostDieFace(1, true));
+  ghostRow.appendChild(ghostFaces);
+
+  const playerRow = document.createElement('div');
+  playerRow.className = 'dice-row';
+  playerRow.innerHTML = `<div class="dice-row-title">تاس بازیکنان</div>`;
+  const playerFaces = document.createElement('div');
+  playerFaces.className = 'dice-faces';
+  for (let i = 1; i <= 6; i++) playerFaces.appendChild(createPlayerDieFace(i));
+  playerRow.appendChild(playerFaces);
+
+  const hhRow = document.createElement('div');
+  hhRow.className = 'dice-row';
+  hhRow.innerHTML = `<div class="dice-row-title">تاس هانتد هوس</div>`;
+  const hhFaces = document.createElement('div');
+  hhFaces.className = 'dice-faces';
+  ['boo', 'boost', 'again', 'x2', 'x3', 'swirl'].forEach(t => hhFaces.appendChild(createHHDieFace(t)));
+  hhRow.appendChild(hhFaces);
+
+  wrap.append(ghostRow, playerRow, hhRow);
+  root.appendChild(wrap);
+}
