@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   assignPathVariants();
   checkTileImages();
   buildCemeteryDecor();
+  buildAssetShowcase();
 });
 
 /* ---------- reusable component builders (visual only, no game logic) ---------- */
@@ -172,3 +173,55 @@ function checkTileImages(){
   markIfImageExists('assets/tiles/path-2.png', '.tile--path-2');
   markIfImageExists('assets/tiles/path-3.png', '.tile--path-3');
 }
+const ASSET_CATEGORIES = [
+  { key:'char',    label:'کاراکتر',      folder:'assets/characters', prefix:'char',      count:5, scales:[2, 1.8, 1.8, 2, 1.9] },
+  { key:'candy',   label:'کندی',         folder:'assets/candy',      prefix:'candy',     count:9, scales:1 },
+  { key:'glow',    label:'گلو استیک',    folder:'assets/tokens',     prefix:'glowstick', count:1, scales:1.5 },
+  { key:'banshee', label:'بنشی',         folder:'assets/tokens',     prefix:'banshee',   count:1, scales:2 },
+  { key:'ghost',   label:'روح',          folder:'assets/tokens',     prefix:'ghost',     count:3, scales:2 },
+  { key:'cq',      label:'کندی کوئست',   folder:'assets/candyquest', prefix:'cq',        count:9, scales:1, hasBg:true },
+  { key:'boost',   label:'توکن BOOst',   folder:'assets/boost',      prefix:'boost',     count:12, scales:1.5 },
+];
+
+
+function buildAssetShowcase(){
+  const wrap = document.createElement('div');
+  wrap.className = 'asset-showcase';
+
+  ASSET_CATEGORIES.forEach(cat => {
+    const row = document.createElement('div');
+    row.className = 'asset-row';
+    const title = document.createElement('div');
+    title.className = 'asset-row-title';
+    title.textContent = cat.label;
+    row.appendChild(title);
+
+    const itemsWrap = document.createElement('div');
+    itemsWrap.className = 'asset-items';
+for (let i = 1; i <= cat.count; i++){
+  
+  const fname = cat.count === 1 ? `${cat.prefix}.png` : `${cat.prefix}-${i}.png`;
+  const scale = Array.isArray(cat.scales) ? cat.scales[i - 1] : cat.scales;
+  const item = document.createElement('div');
+  item.className = 'asset-item' + (cat.hasBg ? ' asset-item--cq' : '');
+  item.dataset.id = `${cat.key}-${i}`;
+if (cat.hasBg){
+  item.style.setProperty('--cq-img', `url('${cat.folder}/${fname}')`);
+} else {
+  item.style.backgroundImage = `url('${cat.folder}/${fname}')`;
+}
+  item.style.setProperty('--scale', scale);
+  item.innerHTML = `<span class="asset-item-label">${cat.count === 1 ? cat.label : i}</span>`;
+  itemsWrap.appendChild(item);
+  
+}
+    row.appendChild(itemsWrap);
+    wrap.appendChild(row);
+  });
+
+  const boardWrapper = document.querySelector('.board-wrapper');
+  (boardWrapper || document.body).appendChild(wrap);
+}
+
+
+
