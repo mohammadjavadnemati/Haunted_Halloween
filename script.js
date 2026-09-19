@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkTileImages();
   buildCemeteryDecor();
   // buildAssetShowcase();
+  buildWheelTest();
 });
 
 /* ---------- reusable component builders (visual only, no game logic) ---------- */
@@ -323,4 +324,154 @@ function createCharacterToken(index, scale){
 el.style.backgroundImage = `url('assets/character-tokens/token-${index}.png')`;
   return el;
 }
+const WHEEL_SEGMENTS = [
+  { label:'کندی تموم شده',              units:1, color:'#2b2b2b' },
+  { label:'۲ تا کندی',                  units:3, color:'var(--green)' },
+  { label:'دوباره بچرخون',              units:1, color:'var(--purple)' },
+  { label:'چه لباس قشنگی (۳ کندی)',     units:3, color:'var(--orange)' },
+  { label:'کسی خونه نیست',              units:1, color:'#2b2b2b' },
+  { label:'۲ تا کندی بردار',            units:3, color:'var(--green)' },
+  { label:'دوباره بچرخون',              units:1, color:'var(--purple)' },
+  { label:'۱ کندی بردار + دوباره تاس',  units:3, color:'var(--orange)' },
+];
 
+function buildWheelGradient(segments){
+  const total = segments.reduce((s, seg) => s + seg.units, 0);
+  let acc = 0;
+  const stops = segments.map(seg => {
+    const start = (acc / total) * 360;
+    acc += seg.units;
+    const end = (acc / total) * 360;
+    return `${seg.color} ${start}deg ${end}deg`;
+  });
+  return `conic-gradient(from 0deg, ${stops.join(', ')})`;
+}
+
+function angleToXY(deg, radiusPercent){
+  const rad = (deg - 90) * Math.PI / 180;
+  return {
+    x: 50 + radiusPercent * Math.cos(rad),
+    y: 50 + radiusPercent * Math.sin(rad),
+  };
+}
+
+function renderWheel(){
+  const disc = document.querySelector('.wheel-disc');
+  const labelsLayer = document.querySelector('.wheel-labels');
+  if (!disc || !labelsLayer) return;
+
+  disc.style.background = buildWheelGradient(WHEEL_SEGMENTS);
+
+  labelsLayer.innerHTML = '';
+  const total = WHEEL_SEGMENTS.reduce((s, seg) => s + seg.units, 0);
+  let acc = 0;
+  WHEEL_SEGMENTS.forEach(seg => {
+    const start = (acc / total) * 360;
+    acc += seg.units;
+    const end = (acc / total) * 360;
+    const mid = (start + end) / 2;
+    const pos = angleToXY(mid, 33);
+
+    const el = document.createElement('div');
+    el.className = 'wheel-label';
+    el.style.left = pos.x + '%';
+    el.style.top = pos.y + '%';
+    el.style.transform = `translate(-50%,-50%) rotate(${mid}deg)`;
+    el.textContent = seg.label;
+    labelsLayer.appendChild(el);
+  });
+}
+
+function buildWheelTest(){
+  const root = document.getElementById('wheelTestRoot');
+  if (!root) return;
+
+  root.innerHTML = `
+    <div class="wheel-test">
+      <div class="wheel-wrap">
+        <div class="wheel-disc"></div>
+        <div class="wheel-labels"></div>
+        <div class="wheel-overlay-img"></div>
+      </div>
+      <div class="wheel-tools">
+        <div class="wheel-tools-title">عکس راهنما</div>
+        <label>Scale <span id="wheelImgScaleVal">1.00</span></label>
+        <input id="wheelImgScaleRange" type="range" min="0.3" max="3" step="0.01" value="1">
+        <input id="wheelImgScaleNumber" type="number" min="0.3" max="3" step="0.01" value="1">
+        <label>Rotate <span id="wheelImgRotateVal">0</span>°</label>
+        <input id="wheelImgRotateRange" type="range" min="0" max="360" step="1" value="0">
+        <input id="wheelImgRotateNumber" type="number" min="0" max="360" step="1" value="0">
+
+<label>X <span id="wheelImgXVal">0</span>%</label>
+<input id="wheelImgXRange" type="range" min="-50" max="50" step="1" value="0">
+<input id="wheelImgXNumber" type="number" min="-50" max="50" step="1" value="0">
+
+<label>Y <span id="wheelImgYVal">0</span>%</label>
+<input id="wheelImgYRange" type="range" min="-50" max="50" step="1" value="0">
+<input id="wheelImgYNumber" type="number" min="-50" max="50" step="1" value="0">
+
+        <div class="wheel-tools-title">اندازه دقیق بخش‌ها (واحد از ۱۶)</div>
+        <div id="wheelSegmentInputs"></div>
+      </div>
+    </div>
+  `;
+
+  renderWheel();
+
+  const wrap = root.querySelector('.wheel-wrap');
+
+  const sRange = root.querySelector('#wheelImgScaleRange');
+  const sNum = root.querySelector('#wheelImgScaleNumber');
+  const sVal = root.querySelector('#wheelImgScaleVal');
+  const syncScale = v => {
+    wrap.style.setProperty('--overlay-scale', v);
+    sVal.textContent = Number(v).toFixed(2);
+    sRange.value = v; sNum.value = v;
+  };
+  sRange.addEventListener('input', () => syncScale(sRange.value));
+  sNum.addEventListener('input', () => syncScale(sNum.value));
+
+  const rRange = root.querySelector('#wheelImgRotateRange');
+  const rNum = root.querySelector('#wheelImgRotateNumber');
+  const rVal = root.querySelector('#wheelImgRotateVal');
+  const syncRotate = v => {
+    wrap.style.setProperty('--overlay-rotate', v + 'deg');
+    rVal.textContent = v;
+    rRange.value = v; rNum.value = v;
+  };
+  const xRange = root.querySelector('#wheelImgXRange');
+const xNum = root.querySelector('#wheelImgXNumber');
+const xVal = root.querySelector('#wheelImgXVal');
+const syncX = v => {
+  wrap.style.setProperty('--overlay-x', v + '%');
+  xVal.textContent = v;
+  xRange.value = v; xNum.value = v;
+};
+xRange.addEventListener('input', () => syncX(xRange.value));
+xNum.addEventListener('input', () => syncX(xNum.value));
+
+const yRange = root.querySelector('#wheelImgYRange');
+const yNum = root.querySelector('#wheelImgYNumber');
+const yVal = root.querySelector('#wheelImgYVal');
+const syncY = v => {
+  wrap.style.setProperty('--overlay-y', v + '%');
+  yVal.textContent = v;
+  yRange.value = v; yNum.value = v;
+};
+yRange.addEventListener('input', () => syncY(yRange.value));
+yNum.addEventListener('input', () => syncY(yNum.value));
+  rRange.addEventListener('input', () => syncRotate(rRange.value));
+  rNum.addEventListener('input', () => syncRotate(rNum.value));
+
+  const segWrap = root.querySelector('#wheelSegmentInputs');
+  WHEEL_SEGMENTS.forEach((seg, i) => {
+    const row = document.createElement('div');
+    row.className = 'wheel-seg-row';
+    row.innerHTML = `<span>${seg.label}</span><input type="number" min="0.1" step="0.1" value="${seg.units}">`;
+    row.querySelector('input').addEventListener('input', e => {
+      WHEEL_SEGMENTS[i].units = parseFloat(e.target.value) || 0.1;
+      renderWheel();
+    });
+    segWrap.appendChild(row);
+  });
+}
