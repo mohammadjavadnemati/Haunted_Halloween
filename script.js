@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   checkTileImages();
   buildCemeteryDecor();
   // buildAssetShowcase();
-  buildDiceTest();
 });
 
 /* ---------- reusable component builders (visual only, no game logic) ---------- */
@@ -315,39 +314,3 @@ function createHHDieFace(type){
   return wrap;
 }
 
-function buildDiceTest(){
-  const root = document.getElementById('diceTestRoot');
-  if (!root) return;
-
-  const wrap = document.createElement('div');
-  wrap.className = 'dice-test';
-
-  const ghostRow = document.createElement('div');
-  ghostRow.className = 'dice-row';
-  ghostRow.innerHTML = `<div class="dice-row-title">تاس روح</div>`;
-  const ghostFaces = document.createElement('div');
-  ghostFaces.className = 'dice-faces';
-  [3, 3, 2, 2].forEach(n => ghostFaces.appendChild(createGhostDieFace(n)));
-  ghostFaces.appendChild(createGhostDieFace(1));
-  ghostFaces.appendChild(createGhostDieFace(1, true));
-  ghostRow.appendChild(ghostFaces);
-
-  const playerRow = document.createElement('div');
-  playerRow.className = 'dice-row';
-  playerRow.innerHTML = `<div class="dice-row-title">تاس بازیکنان</div>`;
-  const playerFaces = document.createElement('div');
-  playerFaces.className = 'dice-faces';
-  for (let i = 1; i <= 6; i++) playerFaces.appendChild(createPlayerDieFace(i));
-  playerRow.appendChild(playerFaces);
-
-  const hhRow = document.createElement('div');
-  hhRow.className = 'dice-row';
-  hhRow.innerHTML = `<div class="dice-row-title">تاس هانتد هوس</div>`;
-  const hhFaces = document.createElement('div');
-  hhFaces.className = 'dice-faces';
-  ['boo', 'boost', 'again', 'x2', 'x3', 'swirl'].forEach(t => hhFaces.appendChild(createHHDieFace(t)));
-  hhRow.appendChild(hhFaces);
-
-  wrap.append(ghostRow, playerRow, hhRow);
-  root.appendChild(wrap);
-}
