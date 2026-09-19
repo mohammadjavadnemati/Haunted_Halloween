@@ -619,7 +619,14 @@ html,body{
   gap:2px;
 }
 .dice-hh-text{ font-family:'Creepster',cursive; font-size:11px; color:#12a150; text-align:center; letter-spacing:1px; }
-.dice-hh-sub{ font-size:8px; color:#12a150; margin-top:2px; }
+.dice-hh-sub{
+  font-family:'Creepster',cursive;
+  font-size:12px;
+  color:#12a150;
+  letter-spacing:.5px;
+  margin-top:3px;
+  text-shadow:0 0 6px rgba(18,161,80,.6);
+}
 .dice-hh-row{ display:flex; align-items:center; gap:4px; }
 .dice-hh-x{ font-family:'Creepster',cursive; font-size:16px; color:#12a150; }
 .dice-hh-candy{ width:26px; height:26px; }

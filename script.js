@@ -241,9 +241,27 @@ function createStarPath(cx, cy, points, outerR, innerR){
 
 function createCandySVG(){
   return `
-    <ellipse cx="30" cy="30" rx="14" ry="9" fill="currentColor"/>
-    <path d="M16 30 L4 20 L4 40 Z" fill="currentColor"/>
-    <path d="M44 30 L56 20 L56 40 Z" fill="currentColor"/>
+    <g>
+      <!-- کاغذ پیچیده سمت چپ -->
+      <path d="M18 30 L2 16 L2 22 L10 30 L2 38 L2 44 Z" fill="currentColor"/>
+      <line x1="6" y1="20" x2="6" y2="40" stroke="currentColor" stroke-width="1.4" opacity=".55"/>
+      <line x1="10" y1="17" x2="10" y2="43" stroke="currentColor" stroke-width="1.4" opacity=".4"/>
+
+      <!-- کاغذ پیچیده سمت راست -->
+      <path d="M42 30 L58 16 L58 22 L50 30 L58 38 L58 44 Z" fill="currentColor"/>
+      <line x1="54" y1="20" x2="54" y2="40" stroke="currentColor" stroke-width="1.4" opacity=".55"/>
+      <line x1="50" y1="17" x2="50" y2="43" stroke="currentColor" stroke-width="1.4" opacity=".4"/>
+
+      <!-- بدنه اصلی آبنبات -->
+      <rect x="16" y="19" width="28" height="22" rx="11" fill="currentColor"/>
+
+      <!-- خط‌های چین کاغذ روی بدنه -->
+      <line x1="21" y1="21" x2="21" y2="39" stroke="#000" stroke-opacity=".15" stroke-width="1.6"/>
+      <line x1="39" y1="21" x2="39" y2="39" stroke="#000" stroke-opacity=".15" stroke-width="1.6"/>
+
+      <!-- هایلایت براق -->
+      <ellipse cx="24" cy="24" rx="4.5" ry="2.6" fill="#fff" opacity=".35"/>
+    </g>
   `;
 }
 
