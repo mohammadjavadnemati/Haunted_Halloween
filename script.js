@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkTileImages();
   buildCemeteryDecor();
   // buildAssetShowcase();
+  buildCharacterTest();
 });
 
 /* ---------- reusable component builders (visual only, no game logic) ---------- */
@@ -314,3 +315,28 @@ function createHHDieFace(type){
   return wrap;
 }
 
+const CHARACTER_SCALES = [2, 1.8, 1.8, 2, 1.9];
+
+function createCharacterToken(index, scale){
+  const el = document.createElement('div');
+  el.className = 'char-token';
+  el.style.setProperty('--scale', scale);
+el.style.backgroundImage = `url('assets/character-tokens/token-${index}.png')`;
+  return el;
+}
+
+function buildCharacterTest(){
+  const root = document.getElementById('characterTestRoot');
+  if (!root) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'char-test';
+  wrap.innerHTML = `<div class="char-test-title">کاراکتر توکن‌ها</div>`;
+
+  const row = document.createElement('div');
+  row.className = 'char-test-row';
+  CHARACTER_SCALES.forEach((scale, i) => row.appendChild(createCharacterToken(i + 1, scale)));
+
+  wrap.appendChild(row);
+  root.appendChild(wrap);
+}

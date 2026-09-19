@@ -624,7 +624,22 @@ html,body{
 
 
 
-
+.char-test{
+  position:relative; z-index:1;
+  width:min(1500px, 94vw);
+  margin:20px auto 0;
+  background:rgba(0,0,0,.25);
+  padding:14px; border-radius:12px;
+}
+.char-test-title{ font-family:'Creepster',cursive; color:var(--orange-glow); font-size:14px; margin-bottom:8px; }
+.char-test-row{ display:flex; gap:14px; }
+.char-token{
+  width:30px; height:30px;
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+  transform:scale(var(--scale,1));
+}
 
 
 
