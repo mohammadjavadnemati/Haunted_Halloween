@@ -629,16 +629,30 @@ html,body{
   transform:scale(var(--scale,1));
 }
 
-.wheel-test{
-  position:relative; z-index:1;
-  width:min(1500px, 94vw);
-  margin:20px auto 0;
-  display:flex; gap:20px; flex-wrap:wrap;
-  background:rgba(0,0,0,.25);
-  padding:14px; border-radius:12px;
+
+.wheel-final{
+  position:relative;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  box-shadow:0 0 0 4px #0e0906, 0 0 0 6px rgba(120,80,30,.4), 0 8px 20px rgba(0,0,0,.6);
+  background-image:url('assets/wheel/wheel-reference.png');
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+  transform:
+    translate(-2%, 0%)
+    rotate(39deg)
+    scale(1.05);
 }
+
+
+
 .wheel-overlay-img{
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
   border-radius:50%;
   background-image:url('assets/wheel/wheel-reference.png');
   background-size:contain;
@@ -651,42 +665,4 @@ html,body{
     scale(var(--overlay-scale))
     rotate(var(--overlay-rotate));
 }
-.wheel-disc{
-  position:absolute; inset:0;
-  border-radius:50%;
-  box-shadow:0 0 0 4px #0e0906, 0 0 0 6px rgba(120,80,30,.4), 0 8px 20px rgba(0,0,0,.6);
-}
-.wheel-labels{ position:absolute; inset:0; }
-.wheel-label{
-  position:absolute;
-  width:26%;
-  font-family:'Special Elite', monospace;
-  font-size:9px;
-  color:#fff;
-  text-align:center;
-  line-height:1.2;
-  text-shadow:0 1px 2px rgba(0,0,0,.8);
-}
-.wheel-overlay-img{
-  position:absolute; inset:0;
-  border-radius:50%;
-  background-image:url('assets/wheel/wheel-reference.png');
-  background-size:contain;
-  background-position:center;
-  background-repeat:no-repeat;
-  opacity:.35;
-  pointer-events:none;
-  transform:scale(var(--overlay-scale)) rotate(var(--overlay-rotate));
-}
-.wheel-tools{
-  min-width:220px;
-  display:flex; flex-direction:column; gap:4px;
-  font-family:monospace; font-size:12px; color:#fff;
-}
-.wheel-tools-title{ font-family:'Creepster',cursive; color:var(--orange-glow); font-size:13px; margin-top:8px; }
-.wheel-tools input[type="number"]{
-  width:60px; background:#1a1420; color:#fff;
-  border:1px solid rgba(255,255,255,.2); border-radius:4px; padding:2px 4px;
-}
-.wheel-seg-row{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
 
