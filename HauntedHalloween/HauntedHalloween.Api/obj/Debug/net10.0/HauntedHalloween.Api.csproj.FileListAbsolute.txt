@@ -36,3 +36,6 @@ C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\
 C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Api\obj\Debug\net10.0\HauntedHalloween.Api.pdb
 C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Api\obj\Debug\net10.0\HauntedHalloween.Api.genruntimeconfig.cache
 C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Api\obj\Debug\net10.0\ref\HauntedHalloween.Api.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\injakala\Desktop\programingprojects\Haunted_Halloween\HauntedHalloween\HauntedHalloween.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll

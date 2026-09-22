@@ -23,6 +23,7 @@ public class Player
     public bool HasTakenFinalTurn { get; set; }
     public int Score { get; set; }
     public List<string> LastMovementPath { get; set; } = new();
+    public int CharacterIndex { get; set; }
 }
 
 public enum CandyType

@@ -11,6 +11,8 @@ public class GameBroadcaster
 
     public Task BroadcastState(GameState state) =>
         _hub.Clients.Group(state.GameId).SendAsync("GameStateUpdated", state);
+    public Task BroadcastLobby(Lobby lobby) =>
+        _hub.Clients.Group(lobby.Code).SendAsync("LobbyUpdated", lobby);
 
     public Task BroadcastLog(string gameId, List<string> log) =>
         log.Count > 0
